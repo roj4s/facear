@@ -1,49 +1,68 @@
 import React, { useState, useEffect } from 'react'
 import * as THREE from 'three'
 import { OBJLoader } from '../../loader/OBJLoader'
-import { useLoader  } from 'react-three-fiber'
+import { useLoader, useFrame } from 'react-three-fiber'
 
 import MeshAsset from './facemesh.obj'
 
-export default function FaceMesh({facePoints, color}){
+export default function FaceMesh({landMarksProvider, color}){
 
-  const [geometry, setGeometry] = useState()
   let obj = useLoader(OBJLoader, MeshAsset)
+  const [geometry, setGeometry] = useState()
+  const label = '[FaceMesh]'
 
   useEffect(() => {
 
-    obj.traverse(child => {
-      if (child instanceof THREE.Mesh) {
 
-        if(facePoints && facePoints.length){
+      console.log(obj)
+      obj.traverse(child => {
+        if (child instanceof THREE.Mesh) {
 
-          for(let i = 0; i < facePoints.length; i++){
+          setGeometry(child.geometry)
 
-            let [x, y, z] = facePoints[i]
-            child.geometry.vertices[i].set([-x, -y, -z / 30])
-
-          }
         }
+      })
 
-        setGeometry(child.geometry)
-        console.log("geometry set")
+    }, [obj])
 
-      }
-    })
 
-  },[facePoints, obj])
+  useFrame(() => {
+
+    if(landMarksProvider && geometry){
+
+      landMarksProvider.getLandmarks().then(landmarks => {
+
+        if(landmarks && landmarks.length){
+
+          const newGeometry = geometry.clone()
+
+          for (let i = 0; i < landmarks.length; i++) {
+            const [x, y, z] = landmarks[i]
+            newGeometry.vertices[i].set(x, y, z)
+          }
+
+          setGeometry(newGeometry)
+        }
+      }).catch(e=>{
+
+        console.log(`${label} Couldn't get landmarks: `, e)
+
+      })
+    }
+
+  })
 
 
   return <>{
     geometry && <mesh
-          geometry={geometry}
-        >
-          <meshBasicMaterial
-            attach="material"
-            side={THREE.FrontSide}
-            wireframe={true}
-            color={color | "blue"}
-          />
+              geometry={geometry}
+            >
+            <meshBasicMaterial
+                attach="material"
+                side={THREE.FrontSide}
+                wireframe={true}
+                color={color | "blue"}
+            />
     </mesh>
   }</>
 

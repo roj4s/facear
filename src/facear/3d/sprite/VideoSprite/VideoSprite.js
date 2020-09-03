@@ -5,9 +5,9 @@ import { useState } from 'react'
 export default function VideoSprite({videoElement, width, height}) {
 
     const [videoTexture, setVideoTexture] = useState()
-    const veData = videoElement.getBoundingClientRect()
     width = width | videoElement.offsetWidth
     height = height | videoElement.offsetHeight
+    const label = '[VideoSprite]'
 
     useEffect(()=>{
 
@@ -20,7 +20,7 @@ export default function VideoSprite({videoElement, width, height}) {
 
     return <sprite
                 center={[0.5, 0.5]}
-                scale={[-width, height, 1]}
+                scale={[-width , height, 1]}
                 position={[-width / 2, -height / 2, -1]}
                 >
         {
