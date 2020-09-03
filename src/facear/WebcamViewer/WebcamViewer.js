@@ -49,7 +49,7 @@ export default function WebcamViewer({onVideoReady, hidden, id, width, height}){
                 { deviceCompatible ?
 
                         <video
-                            id={id | 'video'}
+                            id={id}
                             style={{
                                   display: hidden ? 'none': 'initial',
                                   width: width,
