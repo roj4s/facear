@@ -5,7 +5,7 @@ import { useLoader, useFrame } from 'react-three-fiber'
 
 import MeshAsset from './facemesh.obj'
 
-export default function FaceMesh({landMarksProvider, color}){
+export default function FaceMesh({landMarksProvider}){
 
   let obj = useLoader(OBJLoader, MeshAsset)
   const [geometry, setGeometry] = useState()
@@ -61,7 +61,7 @@ export default function FaceMesh({landMarksProvider, color}){
                 attach="material"
                 side={THREE.FrontSide}
                 wireframe={true}
-                color={color | "blue"}
+                color={"cyan"}
             />
     </mesh>
   }</>

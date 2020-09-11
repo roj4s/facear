@@ -1,6 +1,5 @@
 import * as faceAIModelLoader from '@tensorflow-models/facemesh'
 import * as tfjs_backend_webgl from "@tensorflow/tfjs-backend-webgl"
-import * as tfjs_backend_cpu from "@tensorflow/tfjs-backend-cpu"
 
 export default class GoogleFaceMeshEstimator {
 

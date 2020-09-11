@@ -7,7 +7,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <FaceAr width={300} height={200} />
+        <FaceAr width={640} height={450} />
       </header>
     </div>
   );
