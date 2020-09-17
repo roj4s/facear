@@ -9,6 +9,7 @@ export default function FaceMesh({landMarksProvider}){
 
   let obj = useLoader(OBJLoader, MeshAsset)
   const [geometry, setGeometry] = useState()
+  const [visible, setVisible] = useState(false)
   const label = '[FaceMesh]'
 
   useEffect(() => {
@@ -42,6 +43,10 @@ export default function FaceMesh({landMarksProvider}){
           }
 
           setGeometry(newGeometry)
+          setVisible(true)
+        }
+        else{
+          setVisible(false)
         }
       }).catch(e=>{
 
@@ -54,7 +59,7 @@ export default function FaceMesh({landMarksProvider}){
 
 
   return <>{
-    geometry && <mesh
+    geometry && visible && <mesh
               geometry={geometry}
             >
             <meshBasicMaterial
