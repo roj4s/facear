@@ -5,64 +5,70 @@ import './WebcamViewer.css'
 
 const getCameraVideo = () => {
 
-    console.log("Loading camera video ...")
-    try{
-      if(navigator.mediaDevices.getUserMedia){
-          return navigator.mediaDevices.getUserMedia({video: true})
-      }
-    }catch(e){
-      console.log(e)
+  console.log("Loading camera video ...")
+  try{
+    if(navigator.mediaDevices.getUserMedia){
+      return navigator.mediaDevices.getUserMedia({video: true})
     }
-    return null
+  }catch(e){
+    console.log(e)
+  }
+  return null
 }
 
 export default function WebcamViewer({onVideoReady, hidden, id, width, height}){
 
-    [width, height] = validateDimensions(width, height)
+  [width, height] = validateDimensions(width, height)
 
-    const [deviceCompatible, setDeviceCompatible] = useState(true)
+  const [deviceCompatible, setDeviceCompatible] = useState(true)
 
-    const videoRef = useRef(null)
+  const videoRef = useRef(null)
 
-    useEffect(()=>{
+  useEffect(()=>{
 
-        const cameraStream = getCameraVideo()
-        if(!cameraStream){
-            setDeviceCompatible(false)
-        } else {
-            cameraStream.then(stream => {
-                if(stream && videoRef && videoRef.current)
-                videoRef.current.srcObject = stream
-            }).catch(err => {
-                console.log("Error getting camera stream")
-                console.error(err)
-            });
+    const cameraStream = getCameraVideo()
+    if(!cameraStream){
+      setDeviceCompatible(false)
+    } else {
+      cameraStream.then(stream => {
+        if(stream && videoRef && videoRef.current)
+        {
+          videoRef.current.srcObject = stream
         }
-    }, [])
 
-    return (<div className="WebcamViewer"
-                 style={{
-                    display: hidden ? 'none': 'initial',
-                    width: width,
-                    height: height
-                                }}>
-                { deviceCompatible ?
+      }).catch(err => {
+        console.log("Error getting camera stream")
+        console.error(err)
+      });
+    }
+  }, [])
 
-                        <video
-                            id={id}
-                            style={{
-                                  display: hidden ? 'none': 'initial',
-                                  width: width,
-                                  height: height
-                                }}
-                            playsInline
-                            autoPlay
-                            onLoadedData={onVideoReady}
-                            ref={videoRef}
-                        >
-                        </video>
-                    : <p>Device is not compatible</p>
-                }
-            </div>)
+
+  return (<div className="WebcamViewer"
+    style={{
+      display: hidden ? 'none': 'initial',
+        width: width,
+        height: height
+    }}>
+    { deviceCompatible ?
+
+      <div className="WebcamViewerVideoContainer">
+        <video
+          id={id}
+          style={{
+            display: hidden ? 'none': 'initial',
+              width: width,
+              height: height
+          }}
+          playsInline
+          autoPlay
+          onLoadedData={onVideoReady}
+          ref={videoRef}
+        >
+        </video>
+      </div>
+      : <p>Device is not compatible</p>
+    }
+    </div>)
 
 }

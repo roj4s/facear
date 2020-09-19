@@ -9,14 +9,12 @@ export default function CustomScene({videoElement, children}){
 
   useEffect(() => {
 
-    const veWidth = videoElement.offsetWidth
-    const veHeight = videoElement.offsetHeight
-    console.log(`${label} ${videoElement.videoWidth} ${videoElement.videoHeight}`)
-    console.log(`${label} Width: ${veWidth}, Height: ${veHeight}`)
+    const [width, height] = [videoElement.offsetWidth, videoElement.offsetHeight]
+
     setCameraData({
       fov: 50,
-      position: [veWidth / 2, veHeight / 2, veHeight],
-      aspect: veWidth / veHeight,
+      position: [width / 2, height / 2, height],
+      aspect: width / height,
       near: 1,
       far: 5000,
     })

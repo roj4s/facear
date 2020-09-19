@@ -1,3 +1,8 @@
 .WebcamViewer video {
     object-fit: fill;
 }
+
+.WebcamViewerVideoContainer {
+  height: 100%;
+}
+

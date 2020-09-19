@@ -4,12 +4,49 @@
   justify-content: center;
   align-items:center;
   position: relative;
+  overflow: hidden;
 }
 
-.FaceAr > * {
-  position: absolute;
+.FaceArBody > * {
   width: 100%;
-  height: 100%
+  height: 100%;
+  position: absolute;
+  top: 0;
+}
+
+.FaceArBody {
+  top: 0;
+  position: absolute;
+  height: 100%;
+}
+
+.FaceArCenterLine {
+  width: 1px;
+  height: 300px;
+  display: inline-block;
+  top: -50%;
+  border-style: dotted;
+  position: absolute;
+  left: 50%;
+  border-size: 1px;
+  border-color: #ff0000;
+  z-index: 100;
+  display: none;
+}
+
+.FaceArBodyCenterLine {
+  width: 1px;
+  height: 300px;
+  display: inline-block;
+  top: -50%;
+  border-style: dotted;
+  position: absolute;
+  left: 50%;
+  border-size: 1px;
+  border-color: #00ff00;
+  z-index: 100;
+  display: none;
+
 }
 
 .CanvasContainer {
