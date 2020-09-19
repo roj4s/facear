@@ -3,7 +3,7 @@ import * as tfjs_backend_webgl from "@tensorflow/tfjs-backend-webgl"
 
 export default class GoogleFaceMeshEstimator {
 
-  constructor(imageSource, scaler){
+  constructor(imageSource, scaler, onLoaded){
 
     let _this = this
     this.imageSource = imageSource
@@ -12,7 +12,9 @@ export default class GoogleFaceMeshEstimator {
     faceAIModelLoader.load().then(estimator => {
       _this.estimator = estimator
       console.log(`${this.label} Estimator loaded`, estimator)
+      onLoaded()
     }).catch(e => {
+      onLoaded(e)
       console.log(`${this.label} Couldn't load estimator`, e)
     })
 

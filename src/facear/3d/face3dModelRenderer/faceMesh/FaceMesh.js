@@ -5,17 +5,16 @@ import { useLoader, useFrame } from 'react-three-fiber'
 
 import MeshAsset from './facemesh.obj'
 
-export default function FaceMesh({landMarksProvider}){
+export default function FaceMesh({landMarksProvider, onLoaded}){
 
   let obj = useLoader(OBJLoader, MeshAsset)
   const [geometry, setGeometry] = useState()
   const [visible, setVisible] = useState(false)
+  const [loaded, setLoaded] = useState(false)
   const label = '[FaceMesh]'
 
   useEffect(() => {
 
-
-      console.log(obj)
       obj.traverse(child => {
         if (child instanceof THREE.Mesh) {
 
@@ -44,6 +43,12 @@ export default function FaceMesh({landMarksProvider}){
 
           setGeometry(newGeometry)
           setVisible(true)
+          if(!loaded){
+            if(onLoaded !== undefined && onLoaded !== null){
+              onLoaded()
+            }
+            setLoaded(true)
+          }
         }
         else{
           setVisible(false)

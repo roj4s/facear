@@ -15,3 +15,9 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+.FaceArOverlay{
+  background-color: #000000;
+  z-index: 100;
+  opacity: 50%;
+}
