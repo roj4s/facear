@@ -3,9 +3,10 @@ import WebcamViewer from './WebcamViewer/WebcamViewer'
 import { validateDimensions } from './common/dimensions'
 import GoogleFaceMeshEstimator from './landmarkProvider/GoogleFaceMeshEstimator'
 import { Canvas } from 'react-three-fiber'
-import FaceMesh from './3d/face3dModelRenderer/faceMesh/FaceMesh'
 import CustomScene from './3d/scene/CustomScene/CustomScene'
 import LoadingOverlay from './common/loadingOverlay/loadingOverlay'
+import N95Mask from './3d/face3dModelRenderer/n95Mask/N95Mask'
+import FaceMesh from './3d/face3dModelRenderer/faceMesh/FaceMesh'
 
 import './FaceAr.css'
 
@@ -63,15 +64,20 @@ export default function FaceAr({width, height}){
     const newVideoHeight = parseInt(height)
     const newVideoWidth = newVideoHeight * realVideoAspect
     setBodyWidth(newVideoWidth)
+    console.log(`New video Width ${newVideoWidth}`)
+    console.log(`New video height ${newVideoHeight}`)
     const newBodyLeft = -1 * newVideoWidth * .5 + parseInt(width) * .5
+    console.log(`New body left: ${newBodyLeft}`)
     setBodyLeft(newBodyLeft)
 
 
     const [widthRatio, heightRatio] = [newVideoWidth / ve.videoWidth,  newVideoHeight / ve.videoHeight]
 
     const scaler = (p) => {
-      return [p[0] * widthRatio,  p[1] * heightRatio,  p[2]/10000]
+      return [p[0] * widthRatio,  p[1] * heightRatio,  p[2] / parseInt(height)]
     }
+
+    //const scaler = null
 
     setLandmarksProvider(new GoogleFaceMeshEstimator(ve, scaler, onLandmarksProviderLoaded))
     setVideoElement(ve)
@@ -103,11 +109,14 @@ export default function FaceAr({width, height}){
           <Canvas>
           {
             videoElement && <CustomScene videoElement={videoElement} >
-              <Suspense fallback={<></>}>
-                <FaceMesh
+            {true &&<Suspense fallback={<></>}>
+                <N95Mask
                     onLoaded={on3dModelLoaded}
                     landMarksProvider={landMarksProvider} />
-              </Suspense>
+              </Suspense>}
+            { false && <Suspense fallback={<></>}>
+                <FaceMesh landMarksProvider={landMarksProvider} onLoaded={on3dModelLoaded} />
+              </Suspense> }
             </CustomScene>
           }
           </Canvas>

@@ -70,7 +70,7 @@ export default function FaceMesh({landMarksProvider, onLoaded}){
             <meshBasicMaterial
                 attach="material"
                 side={THREE.FrontSide}
-                wireframe={true}
+                wireframe={false}
                 color={"cyan"}
             />
     </mesh>

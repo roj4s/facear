@@ -5,7 +5,7 @@ import './App.css';
 
 function App() {
 
-  const [size, setSize] = useState({width: 200, height: 300})
+  const [size, setSize] = useState({width: 640, height: 480})
 
   useEffect(() => {
 
